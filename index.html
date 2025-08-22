@@ -101,19 +101,19 @@
 
         @keyframes rocketLaunch {
             0% {
-                transform: translateY(100vh) rotate(0deg) scale(1);
+                transform: translate(0, 0) scale(1);
                 opacity: 1;
             }
             20% {
-                transform: translateY(80vh) rotate(0deg) scale(1.1);
+                transform: translate(var(--move-x, 0), var(--move-y, 0)) scale(1.1);
                 opacity: 1;
             }
             70% {
-                transform: translateY(20vh) rotate(0deg) scale(1);
+                transform: translate(calc(var(--move-x, 0) * 0.7), calc(var(--move-y, 0) * 0.7)) scale(1);
                 opacity: 1;
             }
             100% {
-                transform: translateY(-300px) rotate(0deg) scale(0.8);
+                transform: translate(calc(var(--move-x, 0) * 1.2), calc(var(--move-y, 0) * 1.2)) scale(0.8);
                 opacity: 0;
             }
         }
@@ -310,7 +310,7 @@
     <div class="container">
         <h1 class="title">Congratulazioni!</h1>
         <button class="discover-btn" onclick="window.location.href='prize.html'">
-            🎁 Scopri cosa hai vinto! 🎁
+            Scopri cosa hai vinto! 🎁
         </button>
     </div>
 
@@ -334,8 +334,57 @@
             
             const rocket = document.createElement('div');
             rocket.className = 'firework-rocket';
-            rocket.style.left = Math.random() * 100 + '%';
+            
+            // Posiziona i razzi ai bordi dello schermo
+            const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+            let startX, startY, targetX, targetY;
+            
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const margin = 50; // Distanza dal bordo
+            
+            switch(side) {
+                case 0: // Top
+                    startX = Math.random() * window.innerWidth;
+                    startY = -20;
+                    targetX = centerX + (Math.random() - 0.5) * 200;
+                    targetY = centerY + (Math.random() - 0.5) * 200;
+                    break;
+                case 1: // Right
+                    startX = window.innerWidth + 20;
+                    startY = Math.random() * window.innerHeight;
+                    targetX = centerX + (Math.random() - 0.5) * 200;
+                    targetY = centerY + (Math.random() - 0.5) * 200;
+                    break;
+                case 2: // Bottom
+                    startX = Math.random() * window.innerWidth;
+                    startY = window.innerHeight + 20;
+                    targetX = centerX + (Math.random() - 0.5) * 200;
+                    targetY = centerY + (Math.random() - 0.5) * 200;
+                    break;
+                case 3: // Left
+                    startX = -20;
+                    startY = Math.random() * window.innerHeight;
+                    targetX = centerX + (Math.random() - 0.5) * 200;
+                    targetY = centerY + (Math.random() - 0.5) * 200;
+                    break;
+            }
+            
+            rocket.style.left = startX + 'px';
+            rocket.style.top = startY + 'px';
             rocket.style.animationDelay = Math.random() * 0.8 + 's';
+            
+            // Calcola l'angolo per puntare verso il centro
+            const angle = Math.atan2(targetY - startY, targetX - startX);
+            rocket.style.transform = `rotate(${angle}rad)`;
+            
+            // Calcola la distanza da percorrere
+            const distanceX = targetX - startX;
+            const distanceY = targetY - startY;
+            
+            // Applica le variabili CSS per l'animazione
+            rocket.style.setProperty('--move-x', distanceX + 'px');
+            rocket.style.setProperty('--move-y', distanceY + 'px');
             
             document.body.appendChild(rocket);
             
@@ -366,8 +415,8 @@
                 clearInterval(trailInterval);
                 rocket.remove();
                 
-                const explosionX = rocket.offsetLeft;
-                const explosionY = rocket.offsetTop;
+                const explosionX = targetX;
+                const explosionY = targetY;
                 
                 // Scegli tipo di esplosione casuale
                 const explosionTypes = ['sphere', 'ring', 'spiral', 'cross'];
