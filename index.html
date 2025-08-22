@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Scopri il tuo Premio!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .discover-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            border: none;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discover-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .discover-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .discover-btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .firework-rocket {
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to top, #ff6b6b, #feca57, #4ecdc4, #45b7d1);
+            border-radius: 50% 50% 0 0;
+            animation: rocketLaunch 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.9), 0 0 30px rgba(255, 107, 107, 0.5);
+            filter: blur(0.5px);
+        }
+
+        @keyframes rocketLaunch {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            20% {
+                transform: translateY(80vh) rotate(0deg) scale(1.1);
+                opacity: 1;
+            }
+            70% {
+                transform: translateY(20vh) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-300px) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .firework-explosion {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            animation: explosion 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            filter: blur(0.3px);
+        }
+
+        @keyframes explosion {
+            0% {
+                transform: scale(0) translateY(0) translateX(0);
+                opacity: 1;
+            }
+            15% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(var(--explosion-scale, 25)) translateY(var(--spread-y, 0px)) translateX(var(--spread-x, 0px));
+                opacity: 0;
+            }
+        }
+
+        .firework-trail {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 70%, transparent 100%);
+            border-radius: 50%;
+            animation: trail 1.5s ease-out infinite;
+            filter: blur(0.5px);
+        }
+
+        @keyframes trail {
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(0.1);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, white 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%);
+            border-radius: 50%;
+            animation: sparkle 2s ease-out infinite;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 15px rgba(255, 255, 255, 0.5);
+            filter: blur(0.2px);
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            30% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            animation: particle 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            filter: blur(0.3px);
+        }
+
+        @keyframes particle {
+            0% {
+                transform: scale(1) translateY(0) translateX(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0) translateY(var(--particle-y, -80px)) translateX(var(--particle-x, 80px));
+                opacity: 0;
+            }
+        }
+
+        .explosion-ring {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border: 2px solid;
+            border-radius: 50%;
+            animation: explosionRing 2s ease-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes explosionRing {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(15);
+                opacity: 0;
+            }
+        }
+
+        .smoke-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: smoke 4s ease-out infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes smoke {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(3) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        .title {
+            color: white;
+            font-size: 48px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.6); }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <h1 class="title">Congratulazioni!</h1>
+        <button class="discover-btn" onclick="window.location.href='prize.html'">
+            🎁 Scopri cosa hai vinto! 🎁
+        </button>
+    </div>
+
+    <script>
+        // Creazione stelle di sfondo
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Creazione fuochi d'artificio ultra-realistici
+        function createUltraRealisticFirework() {
+            const rocket = document.createElement('div');
+            rocket.className = 'firework-rocket';
+            rocket.style.left = Math.random() * 100 + '%';
+            rocket.style.animationDelay = Math.random() * 0.8 + 's';
+            
+            document.body.appendChild(rocket);
+            
+            // Creazione traccia del razzo con fumo
+            const trailInterval = setInterval(() => {
+                const trail = document.createElement('div');
+                trail.className = 'firework-trail';
+                trail.style.left = rocket.offsetLeft + 'px';
+                trail.style.top = rocket.offsetTop + rocket.offsetHeight + 'px';
+                document.body.appendChild(trail);
+                
+                // Aggiunta particelle di fumo
+                const smoke = document.createElement('div');
+                smoke.className = 'smoke-particle';
+                smoke.style.left = rocket.offsetLeft + 'px';
+                smoke.style.top = rocket.offsetTop + rocket.offsetHeight + 'px';
+                document.body.appendChild(smoke);
+                
+                setTimeout(() => {
+                    trail.remove();
+                    smoke.remove();
+                }, 1500);
+            }, 40);
+            
+            // Esplosione del fuoco d'artificio
+            setTimeout(() => {
+                clearInterval(trailInterval);
+                rocket.remove();
+                
+                const explosionX = rocket.offsetLeft;
+                const explosionY = rocket.offsetTop;
+                
+                // Scegli tipo di esplosione casuale
+                const explosionTypes = ['sphere', 'ring', 'spiral', 'cross'];
+                const explosionType = explosionTypes[Math.floor(Math.random() * explosionTypes.length)];
+                
+                const explosionColors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#ff9ff3'];
+                const primaryColor = explosionColors[Math.floor(Math.random() * explosionColors.length)];
+                
+                // Anello di esplosione
+                const ring = document.createElement('div');
+                ring.className = 'explosion-ring';
+                ring.style.left = explosionX + 'px';
+                ring.style.top = explosionY + 'px';
+                ring.style.borderColor = primaryColor;
+                document.body.appendChild(ring);
+                
+                setTimeout(() => ring.remove(), 2000);
+                
+                // Particelle dell'esplosione basate sul tipo
+                const particleCount = 40 + Math.floor(Math.random() * 20);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'firework-explosion';
+                    particle.style.left = explosionX + 'px';
+                    particle.style.top = explosionY + 'px';
+                    particle.style.background = explosionColors[Math.floor(Math.random() * explosionColors.length)];
+                    
+                    let spreadX, spreadY;
+                    const baseDistance = 150 + Math.random() * 100;
+                    
+                    switch(explosionType) {
+                        case 'sphere':
+                            const angle = (i / particleCount) * 2 * Math.PI;
+                            spreadX = Math.cos(angle) * baseDistance;
+                            spreadY = Math.sin(angle) * baseDistance;
+                            break;
+                        case 'ring':
+                            const ringAngle = (i / particleCount) * 2 * Math.PI;
+                            spreadX = Math.cos(ringAngle) * baseDistance;
+                            spreadY = Math.sin(ringAngle) * baseDistance;
+                            break;
+                        case 'spiral':
+                            const spiralAngle = (i / particleCount) * 4 * Math.PI;
+                            const spiralRadius = (i / particleCount) * baseDistance;
+                            spreadX = Math.cos(spiralAngle) * spiralRadius;
+                            spreadY = Math.sin(spiralAngle) * spiralRadius;
+                            break;
+                        case 'cross':
+                            if (i % 4 === 0) {
+                                spreadX = baseDistance; spreadY = 0;
+                            } else if (i % 4 === 1) {
+                                spreadX = -baseDistance; spreadY = 0;
+                            } else if (i % 4 === 2) {
+                                spreadX = 0; spreadY = baseDistance;
+                            } else {
+                                spreadX = 0; spreadY = -baseDistance;
+                            }
+                            break;
+                    }
+                    
+                    particle.style.setProperty('--spread-x', spreadX + 'px');
+                    particle.style.setProperty('--spread-y', spreadY + 'px');
+                    particle.style.setProperty('--explosion-scale', (20 + Math.random() * 15) + '');
+                    particle.style.animationDelay = Math.random() * 0.8 + 's';
+                    
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 3000);
+                }
+                
+                // Particelle secondarie che cadono con gravità
+                setTimeout(() => {
+                    for (let i = 0; i < 20; i++) {
+                        const fallingParticle = document.createElement('div');
+                        fallingParticle.className = 'particle';
+                        fallingParticle.style.left = (explosionX + Math.random() * 120 - 60) + 'px';
+                        fallingParticle.style.top = explosionY + 'px';
+                        fallingParticle.style.background = explosionColors[Math.floor(Math.random() * explosionColors.length)];
+                        fallingParticle.style.setProperty('--particle-x', (Math.random() * 120 - 60) + 'px');
+                        fallingParticle.style.setProperty('--particle-y', (Math.random() * 120 + 80) + 'px');
+                        
+                        document.body.appendChild(fallingParticle);
+                        
+                        setTimeout(() => fallingParticle.remove(), 3500);
+                    }
+                }, 800);
+                
+                // Scintille extra con timing variabile
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const sparkle = document.createElement('div');
+                        sparkle.className = 'sparkle';
+                        sparkle.style.left = (explosionX + Math.random() * 80 - 40) + 'px';
+                        sparkle.style.top = (explosionY + Math.random() * 80 - 40) + 'px';
+                        document.body.appendChild(sparkle);
+                        
+                        setTimeout(() => sparkle.remove(), 2000);
+                    }, i * 120 + Math.random() * 200);
+                }
+                
+            }, 2500);
+        }
+
+        // Inizializzazione
+        createStars();
+        
+        // Creazione fuochi d'artificio periodici
+        setInterval(createUltraRealisticFirework, 1500);
+        
+        // Effetto hover sul bottone
+        const btn = document.querySelector('.discover-btn');
+        btn.addEventListener('mouseenter', () => {
+            for (let i = 0; i < 2; i++) {
+                setTimeout(() => createUltraRealisticFirework(), i * 400);
+            }
+        });
+    </script>
+</body>
+</html>
