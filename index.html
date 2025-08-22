@@ -31,8 +31,8 @@
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
             background-size: 400% 400%;
             border: none;
-            padding: 20px 40px;
-            font-size: 24px;
+            padding: 25px 50px;
+            font-size: 28px;
             font-weight: bold;
             color: white;
             border-radius: 50px;
@@ -44,6 +44,17 @@
             letter-spacing: 2px;
             position: relative;
             overflow: hidden;
+            min-width: 280px;
+            min-height: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .discover-btn {
+                padding: 30px 60px;
+                font-size: 32px;
+                min-width: 320px;
+                min-height: 100px;
+            }
         }
 
         .discover-btn:hover {
@@ -253,6 +264,15 @@
             margin-bottom: 40px;
             text-shadow: 0 0 20px rgba(255,255,255,0.5);
             animation: glow 2s ease-in-out infinite alternate;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 36px;
+                margin-bottom: 30px;
+                padding: 0 20px;
+            }
         }
 
         @keyframes glow {
@@ -310,6 +330,8 @@
 
         // Creazione fuochi d'artificio ultra-realistici
         function createUltraRealisticFirework() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             const rocket = document.createElement('div');
             rocket.className = 'firework-rocket';
             rocket.style.left = Math.random() * 100 + '%';
@@ -317,7 +339,7 @@
             
             document.body.appendChild(rocket);
             
-            // Creazione traccia del razzo con fumo
+            // Creazione traccia del razzo con fumo (ridotta su mobile)
             const trailInterval = setInterval(() => {
                 const trail = document.createElement('div');
                 trail.className = 'firework-trail';
@@ -325,18 +347,19 @@
                 trail.style.top = rocket.offsetTop + rocket.offsetHeight + 'px';
                 document.body.appendChild(trail);
                 
-                // Aggiunta particelle di fumo
-                const smoke = document.createElement('div');
-                smoke.className = 'smoke-particle';
-                smoke.style.left = rocket.offsetLeft + 'px';
-                smoke.style.top = rocket.offsetTop + rocket.offsetHeight + 'px';
-                document.body.appendChild(smoke);
+                // Aggiunta particelle di fumo (solo su desktop)
+                if (!isMobile) {
+                    const smoke = document.createElement('div');
+                    smoke.className = 'smoke-particle';
+                    smoke.style.left = rocket.offsetLeft + 'px';
+                    smoke.style.top = rocket.offsetTop + rocket.offsetHeight + 'px';
+                    document.body.appendChild(smoke);
+                    
+                    setTimeout(() => smoke.remove(), 1500);
+                }
                 
-                setTimeout(() => {
-                    trail.remove();
-                    smoke.remove();
-                }, 1500);
-            }, 40);
+                setTimeout(() => trail.remove(), 1500);
+            }, isMobile ? 80 : 40);
             
             // Esplosione del fuoco d'artificio
             setTimeout(() => {
@@ -363,8 +386,8 @@
                 
                 setTimeout(() => ring.remove(), 2000);
                 
-                // Particelle dell'esplosione basate sul tipo
-                const particleCount = 40 + Math.floor(Math.random() * 20);
+                // Particelle dell'esplosione basate sul tipo (ridotte su mobile)
+                const particleCount = isMobile ? (20 + Math.floor(Math.random() * 15)) : (40 + Math.floor(Math.random() * 20));
                 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
@@ -416,9 +439,10 @@
                     setTimeout(() => particle.remove(), 3000);
                 }
                 
-                // Particelle secondarie che cadono con gravità
+                // Particelle secondarie che cadono con gravità (ridotte su mobile)
                 setTimeout(() => {
-                    for (let i = 0; i < 20; i++) {
+                    const fallingParticleCount = isMobile ? 10 : 20;
+                    for (let i = 0; i < fallingParticleCount; i++) {
                         const fallingParticle = document.createElement('div');
                         fallingParticle.className = 'particle';
                         fallingParticle.style.left = (explosionX + Math.random() * 120 - 60) + 'px';
@@ -433,8 +457,9 @@
                     }
                 }, 800);
                 
-                // Scintille extra con timing variabile
-                for (let i = 0; i < 15; i++) {
+                // Scintille extra con timing variabile (ridotte su mobile)
+                const sparkleCount = isMobile ? 8 : 15;
+                for (let i = 0; i < sparkleCount; i++) {
                     setTimeout(() => {
                         const sparkle = document.createElement('div');
                         sparkle.className = 'sparkle';
@@ -452,13 +477,20 @@
         // Inizializzazione
         createStars();
         
-        // Creazione fuochi d'artificio periodici
-        setInterval(createUltraRealisticFirework, 1500);
+        // Rileva se è un dispositivo mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // Effetto hover sul bottone
+        // Creazione fuochi d'artificio periodici (ridotti su mobile)
+        const fireworkInterval = isMobile ? 2500 : 1500;
+        setInterval(createUltraRealisticFirework, fireworkInterval);
+        
+        // Effetto hover/touch sul bottone
         const btn = document.querySelector('.discover-btn');
-        btn.addEventListener('mouseenter', () => {
-            for (let i = 0; i < 2; i++) {
+        const triggerEvent = isMobile ? 'touchstart' : 'mouseenter';
+        
+        btn.addEventListener(triggerEvent, () => {
+            const fireworkCount = isMobile ? 1 : 2;
+            for (let i = 0; i < fireworkCount; i++) {
                 setTimeout(() => createUltraRealisticFirework(), i * 400);
             }
         });

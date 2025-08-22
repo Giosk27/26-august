@@ -42,6 +42,14 @@
             font-weight: bold;
         }
 
+        @media (max-width: 768px) {
+            .prize-title {
+                font-size: 48px;
+                margin-bottom: 15px;
+                padding: 0 20px;
+            }
+        }
+
         @keyframes prizeGlow {
             from { 
                 text-shadow: 0 0 30px rgba(254, 202, 87, 0.8);
@@ -62,6 +70,14 @@
             font-weight: 300;
         }
 
+        @media (max-width: 768px) {
+            .prize-message {
+                font-size: 24px;
+                margin-bottom: 30px;
+                padding: 0 20px;
+            }
+        }
+
         @keyframes messageGlow {
             0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
             50% { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.6); }
@@ -76,6 +92,14 @@
             animation: amsterdamPulse 1.5s ease-in-out infinite;
         }
 
+        @media (max-width: 768px) {
+            .amsterdam-text {
+                font-size: 36px;
+                margin-bottom: 25px;
+                padding: 0 20px;
+            }
+        }
+
         @keyframes amsterdamPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -84,8 +108,8 @@
         .back-btn {
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 20px 40px;
+            font-size: 22px;
             color: white;
             border-radius: 30px;
             cursor: pointer;
@@ -94,6 +118,17 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
+            min-width: 200px;
+            min-height: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .back-btn {
+                padding: 25px 50px;
+                font-size: 26px;
+                min-width: 250px;
+                min-height: 80px;
+            }
         }
 
         .back-btn:hover {
@@ -354,6 +389,8 @@
 
         // Creazione fuochi d'artificio ultra-realistici intensificati
         function createUltraIntenseRealisticFirework() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             const rocket = document.createElement('div');
             rocket.className = 'firework-rocket';
             rocket.style.left = Math.random() * 100 + '%';
@@ -411,8 +448,8 @@
                     setTimeout(() => explosionRing.remove(), 2500);
                 }
                 
-                // Particelle dell'esplosione basate sul tipo
-                const particleCount = 60 + Math.floor(Math.random() * 30);
+                // Particelle dell'esplosione basate sul tipo (ridotte su mobile)
+                const particleCount = isMobile ? (30 + Math.floor(Math.random() * 20)) : (60 + Math.floor(Math.random() * 30));
                 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
@@ -470,9 +507,10 @@
                     setTimeout(() => particle.remove(), 3500);
                 }
                 
-                // Particelle secondarie che cadono con gravità
+                // Particelle secondarie che cadono con gravità (ridotte su mobile)
                 setTimeout(() => {
-                    for (let i = 0; i < 30; i++) {
+                    const fallingParticleCount = isMobile ? 15 : 30;
+                    for (let i = 0; i < fallingParticleCount; i++) {
                         const fallingParticle = document.createElement('div');
                         fallingParticle.className = 'particle';
                         fallingParticle.style.left = (explosionX + Math.random() * 150 - 75) + 'px';
@@ -487,8 +525,9 @@
                     }
                 }, 1000);
                 
-                // Scintille extra con timing variabile
-                for (let i = 0; i < 25; i++) {
+                // Scintille extra con timing variabile (ridotte su mobile)
+                const sparkleCount = isMobile ? 12 : 25;
+                for (let i = 0; i < sparkleCount; i++) {
                     setTimeout(() => {
                         const sparkle = document.createElement('div');
                         sparkle.className = 'sparkle';
@@ -523,16 +562,22 @@
         // Inizializzazione
         createStars();
         
-        // Creazione fuochi d'artificio più frequenti
-        setInterval(createUltraIntenseRealisticFirework, 700);
+        // Rileva se è un dispositivo mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // Creazione coriandoli
-        setInterval(createConfetti, 600);
+        // Creazione fuochi d'artificio più frequenti (ridotti su mobile)
+        const fireworkInterval = isMobile ? 1200 : 700;
+        setInterval(createUltraIntenseRealisticFirework, fireworkInterval);
         
-        // Effetto speciale al caricamento della pagina
+        // Creazione coriandoli (ridotti su mobile)
+        const confettiInterval = isMobile ? 1000 : 600;
+        setInterval(createConfetti, confettiInterval);
+        
+        // Effetto speciale al caricamento della pagina (ridotto su mobile)
         setTimeout(() => {
-            for (let i = 0; i < 6; i++) {
-                setTimeout(() => createUltraIntenseRealisticFirework(), i * 400);
+            const fireworkCount = isMobile ? 3 : 6;
+            for (let i = 0; i < fireworkCount; i++) {
+                setTimeout(() => createUltraIntenseRealisticFirework(), i * 600);
             }
         }, 1000);
     </script>
