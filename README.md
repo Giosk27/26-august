@@ -81,11 +81,6 @@ Puoi aggiungere nuove animazioni CSS o modificare quelle esistenti.
 - **JavaScript** per gli effetti interattivi
 - **Animazioni CSS** per performance ottimali
 
-## 📞 Supporto
-
-Se hai bisogno di aiuto per personalizzare o pubblicare la pagina, non esitare a chiedere!
-
----
-
+--- 
 **Buon divertimento con la tua pagina premio! 🎉**
 
