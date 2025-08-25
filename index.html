@@ -324,72 +324,368 @@
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
         }
+
+        /* Overlay di benvenuto */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, backdrop-filter 0.8s ease;
+        }
+
+        .welcome-overlay.fade-out {
+            opacity: 0;
+            backdrop-filter: blur(0px);
+            pointer-events: none;
+        }
+
+        .welcome-content {
+            text-align: center;
+            color: white;
+            max-width: 600px;
+            padding: 40px;
+        }
+
+        .welcome-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .welcome-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            border: none;
+            padding: 25px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            animation: gradientShift 3s ease infinite, pulse 2s ease-in-out infinite;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            min-width: 280px;
+            min-height: 80px;
+        }
+
+        .welcome-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .welcome-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .welcome-btn:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 36px;
+            }
+            
+            .welcome-message {
+                font-size: 20px;
+                padding: 0 20px;
+            }
+            
+            .welcome-btn {
+                padding: 30px 60px;
+                font-size: 28px;
+                min-width: 320px;
+                min-height: 100px;
+            }
+        }
+
+        /* Stili per il contenuto celebrativo */
+        .celebration-emoji {
+            font-size: 80px;
+            animation: bounce 1s ease-in-out infinite;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .prize-title {
+            color: #feca57;
+            font-size: 64px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(254, 202, 87, 0.8);
+            animation: prizeGlow 2s ease-in-out infinite alternate;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .prize-title {
+                font-size: 48px;
+                margin-bottom: 15px;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .prize-title {
+                font-size: 40px;
+            }
+        }
+
+        @keyframes prizeGlow {
+            from { 
+                text-shadow: 0 0 30px rgba(254, 202, 87, 0.8);
+                transform: scale(1);
+            }
+            to { 
+                text-shadow: 0 0 50px rgba(254, 202, 87, 1), 0 0 70px rgba(254, 202, 87, 0.6);
+                transform: scale(1.05);
+            }
+        }
+
+        .prize-message {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            animation: messageGlow 3s ease-in-out infinite;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .prize-message {
+                font-size: 24px;
+                margin-bottom: 30px;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .prize-message {
+                font-size: 20px;
+            }
+        }
+
+        @keyframes messageGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            50% { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.6); }
+        }
+
+        .amsterdam-text {
+            color: #4ecdc4;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 0 0 25px rgba(78, 205, 196, 0.8);
+            animation: amsterdamPulse 1.5s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .amsterdam-text {
+                font-size: 36px;
+                margin-bottom: 25px;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .amsterdam-text {
+                font-size: 28px;
+            }
+        }
+
+        @keyframes amsterdamPulse {
+            0%, 100% { 
+                transform: scale(1);
+            }
+            50% { 
+                transform: scale(1.1);
+            }
+        }
+
+        /* Effetto di avvicinamento dalla lontananza */
+        .prize-content-emerging {
+            transform: scale(0.05) translateZ(-1000px);
+            transition: transform 4.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        opacity 0.3s ease, 
+                        filter 0.3s ease;
+        }
+
+        .prize-content-emerging.final-position {
+            transform: scale(1) translateZ(0px);
+        }
     </style>
 </head>
 <body>
-    <!-- Audio di sfondo in loop -->
-    <audio id="backgroundAudio" loop muted>
-        <source src="sound/start_sound.mp3" type="audio/mpeg">
+    <!-- Audio completo -->
+    <audio id="completeAudio" muted>
+        <source src="sound/complete_sound.mp3" type="audio/mpeg">
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
+    <!-- Overlay di benvenuto -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-content">
+            <h1 class="welcome-title">🎉 Congratulazioni! 🎉</h1>
+            <p class="welcome-message">
+                Hai vinto un premio speciale!<br>
+                (ti amo tanto 💜🫀)
+            </p>
+            <button class="welcome-btn" id="welcomeBtn">
+                Clicca per scoprire 🎁
+            </button>
+        </div>
+    </div>
+
     <div class="stars" id="stars"></div>
     
-    <div class="container">
-        <h1 class="title">Congratulazioni!</h1>
-        <button class="discover-btn" onclick="window.location.href='prize.html'">
-            Scopri cosa hai vinto! 🎁
-        </button>
+    <div class="container" id="mainContainer" style="display: none;">
+        <div class="celebration-emoji">🎉</div>
+        <h1 class="prize-title">HAI VINTO!</h1>
+        <p class="prize-message">Il tuo premio è...</p>
+        <h2 class="amsterdam-text">✈️ Un Viaggio ad Amsterdam! ✈️</h2>
     </div>
 
     <script>
-        // Funzione per forzare l'autoplay audio
-        function forceAutoplay() {
-            const audio = document.getElementById('backgroundAudio');
+        // Funzione per attivare l'audio e mostrare il contenuto celebrativo
+        function startExperience() {
+            const audio = document.getElementById('completeAudio');
+            const overlay = document.getElementById('welcomeOverlay');
+            const mainContainer = document.getElementById('mainContainer');
             
             // Imposta il volume e smuta
-            audio.volume = 0.3;
+            audio.volume = 0.4;
             audio.muted = false;
             
-            // Prova a riprodurre immediatamente
+            // Prova a riprodurre l'audio
             audio.play().then(() => {
-                console.log('Audio avviato con successo!');
-            }).catch(error => {
-                console.log('Autoplay bloccato, riprovo con strategie alternative:', error);
+                console.log('Audio celebrativo avviato con successo!');
                 
-                // Strategia 1: Riprova dopo un breve delay
+                // Timeline sincronizzata con l'audio di 5 secondi:
+                
+                // 1. Nascondi l'overlay (0-800ms)
+                overlay.classList.add('fade-out');
+                
+                // 2. Dopo 0.8 secondi: mostra il premio in lontananza, molto sfocato
                 setTimeout(() => {
-                    audio.play().catch(err => console.log('Tentativo 1 fallito:', err));
-                }, 100);
+                    mainContainer.style.display = 'block';
+                    mainContainer.classList.add('prize-content-emerging');
+                    mainContainer.style.opacity = '0.1';
+                    mainContainer.style.filter = 'blur(20px)';
+                    
+                    // Avvia l'avvicinamento dalla lontananza
+                    setTimeout(() => {
+                        mainContainer.classList.add('final-position');
+                    }, 100);
+                }, 800);
                 
-                // Strategia 2: Riprova con user interaction
-                const enableAudio = () => {
-                    audio.play().then(() => {
-                        console.log('Audio avviato dopo interazione!');
-                        // Rimuovi gli event listener
-                        document.removeEventListener('click', enableAudio);
-                        document.removeEventListener('touchstart', enableAudio);
-                        document.removeEventListener('keydown', enableAudio);
-                    }).catch(err => console.log('Errore audio dopo interazione:', err));
-                };
+                // 3. Dopo 2 secondi: ancora molto lontano e sfocato
+                setTimeout(() => {
+                    mainContainer.style.opacity = '0.2';
+                    mainContainer.style.filter = 'blur(15px)';
+                }, 2000);
                 
-                // Aggiungi event listeners per interazione utente
-                document.addEventListener('click', enableAudio, { once: true });
-                document.addEventListener('touchstart', enableAudio, { once: true });
-                document.addEventListener('keydown', enableAudio, { once: true });
+                // 4. Dopo 3 secondi: si sta avvicinando
+                setTimeout(() => {
+                    mainContainer.style.opacity = '0.4';
+                    mainContainer.style.filter = 'blur(8px)';
+                }, 3000);
+                
+                // 5. Dopo 4 secondi: quasi arrivato, quasi visibile
+                setTimeout(() => {
+                    mainContainer.style.opacity = '0.9';
+                    mainContainer.style.filter = 'blur(0.8px)';
+                }, 4000);
+                
+                // 6. Alla fine dell'audio (5 secondi): completamente visibile
+                setTimeout(() => {
+                    mainContainer.style.opacity = '1';
+                    mainContainer.style.filter = 'blur(0px)';
+                    mainContainer.style.transition = 'opacity 0.8s ease, filter 0.8s ease';
+                }, 5000);
+                
+                // 6. Rimuovi completamente l'overlay dopo 1.6 secondi
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1600);
+                
+            }).catch(error => {
+                console.log('Errore nella riproduzione audio:', error);
+                
+                // Fallback: mostra il contenuto immediatamente se l'audio fallisce
+                overlay.classList.add('fade-out');
+                setTimeout(() => {
+                    mainContainer.style.display = 'block';
+                    mainContainer.classList.add('prize-content-emerging');
+                    mainContainer.style.opacity = '1';
+                    mainContainer.style.filter = 'blur(0px)';
+                    
+                    // Avvia l'avvicinamento anche nel fallback
+                    setTimeout(() => {
+                        mainContainer.classList.add('final-position');
+                    }, 100);
+                }, 800);
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1600);
             });
         }
 
-        // Avvia l'audio di sfondo automaticamente
+        // Gestione dell'overlay di benvenuto
         document.addEventListener('DOMContentLoaded', function() {
-            // Avvia immediatamente
-            forceAutoplay();
+            const audio = document.getElementById('completeAudio');
+            const overlay = document.getElementById('welcomeOverlay');
+            const welcomeBtn = document.getElementById('welcomeBtn');
             
-            // Riprova dopo 1 secondo
-            setTimeout(forceAutoplay, 1000);
-            
-            // Riprova dopo 3 secondi
-            setTimeout(forceAutoplay, 3000);
+            // Controlla se l'audio può essere riprodotto automaticamente
+            audio.play().then(() => {
+                console.log('Audio può essere riprodotto automaticamente!');
+                // Se funziona, mostra direttamente il contenuto celebrativo
+                startExperience();
+            }).catch(() => {
+                console.log('Autoplay bloccato, mostra overlay di benvenuto');
+                // Se non funziona, mostra l'overlay
+                overlay.style.display = 'flex';
+                
+                // Aggiungi event listener al bottone di benvenuto
+                welcomeBtn.addEventListener('click', startExperience);
+            });
         });
 
         // Creazione stelle di sfondo
