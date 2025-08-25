@@ -327,6 +327,12 @@
     </style>
 </head>
 <body>
+    <!-- Audio di sfondo in loop -->
+    <audio id="backgroundAudio" loop muted>
+        <source src="sound/start_sound.mp3" type="audio/mpeg">
+        Il tuo browser non supporta l'elemento audio.
+    </audio>
+
     <div class="stars" id="stars"></div>
     
     <div class="container">
@@ -337,6 +343,55 @@
     </div>
 
     <script>
+        // Funzione per forzare l'autoplay audio
+        function forceAutoplay() {
+            const audio = document.getElementById('backgroundAudio');
+            
+            // Imposta il volume e smuta
+            audio.volume = 0.3;
+            audio.muted = false;
+            
+            // Prova a riprodurre immediatamente
+            audio.play().then(() => {
+                console.log('Audio avviato con successo!');
+            }).catch(error => {
+                console.log('Autoplay bloccato, riprovo con strategie alternative:', error);
+                
+                // Strategia 1: Riprova dopo un breve delay
+                setTimeout(() => {
+                    audio.play().catch(err => console.log('Tentativo 1 fallito:', err));
+                }, 100);
+                
+                // Strategia 2: Riprova con user interaction
+                const enableAudio = () => {
+                    audio.play().then(() => {
+                        console.log('Audio avviato dopo interazione!');
+                        // Rimuovi gli event listener
+                        document.removeEventListener('click', enableAudio);
+                        document.removeEventListener('touchstart', enableAudio);
+                        document.removeEventListener('keydown', enableAudio);
+                    }).catch(err => console.log('Errore audio dopo interazione:', err));
+                };
+                
+                // Aggiungi event listeners per interazione utente
+                document.addEventListener('click', enableAudio, { once: true });
+                document.addEventListener('touchstart', enableAudio, { once: true });
+                document.addEventListener('keydown', enableAudio, { once: true });
+            });
+        }
+
+        // Avvia l'audio di sfondo automaticamente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Avvia immediatamente
+            forceAutoplay();
+            
+            // Riprova dopo 1 secondo
+            setTimeout(forceAutoplay, 1000);
+            
+            // Riprova dopo 3 secondi
+            setTimeout(forceAutoplay, 3000);
+        });
+
         // Creazione stelle di sfondo
         function createStars() {
             const starsContainer = document.getElementById('stars');

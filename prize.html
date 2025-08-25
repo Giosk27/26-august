@@ -70,13 +70,6 @@
             .amsterdam-text {
                 font-size: 28px;
             }
-            
-            .back-btn {
-                padding: 20px 40px;
-                font-size: 22px;
-                min-width: 220px;
-                min-height: 70px;
-            }
         }
 
         @keyframes prizeGlow {
@@ -138,36 +131,7 @@
             }
         }
 
-        .back-btn {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border: none;
-            padding: 20px 40px;
-            font-size: 22px;
-            color: white;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            min-width: 200px;
-            min-height: 60px;
-        }
 
-        @media (max-width: 768px) {
-            .back-btn {
-                padding: 25px 50px;
-                font-size: 26px;
-                min-width: 250px;
-                min-height: 80px;
-            }
-        }
-
-        .back-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
-        }
 
         .firework-rocket {
             position: absolute;
@@ -395,6 +359,12 @@
     </style>
 </head>
 <body>
+    <!-- Audio finale (una sola volta) -->
+    <audio id="finalAudio" muted>
+        <source src="sound/final_sound.mp3" type="audio/mpeg">
+        Il tuo browser non supporta l'elemento audio.
+    </audio>
+
     <div class="stars" id="stars"></div>
     
     <div class="container">
@@ -402,12 +372,58 @@
         <h1 class="prize-title">HAI VINTO!</h1>
         <p class="prize-message">Il tuo premio è...</p>
         <h2 class="amsterdam-text">✈️ Un Viaggio ad Amsterdam! ✈️</h2>
-        <button class="back-btn" onclick="window.location.href='index.html'">
-            🏠 Torna alla Home
-        </button>
     </div>
 
     <script>
+        // Funzione per forzare l'autoplay audio finale
+        function forceFinalAutoplay() {
+            const audio = document.getElementById('finalAudio');
+            
+            // Imposta il volume e smuta
+            audio.volume = 0.4;
+            audio.muted = false;
+            
+            // Prova a riprodurre immediatamente
+            audio.play().then(() => {
+                console.log('Audio finale avviato con successo!');
+            }).catch(error => {
+                console.log('Autoplay finale bloccato, riprovo con strategie alternative:', error);
+                
+                // Strategia 1: Riprova dopo un breve delay
+                setTimeout(() => {
+                    audio.play().catch(err => console.log('Tentativo 1 fallito:', err));
+                }, 100);
+                
+                // Strategia 2: Riprova con user interaction
+                const enableAudio = () => {
+                    audio.play().then(() => {
+                        console.log('Audio finale avviato dopo interazione!');
+                        // Rimuovi gli event listener
+                        document.removeEventListener('click', enableAudio);
+                        document.removeEventListener('touchstart', enableAudio);
+                        document.removeEventListener('keydown', enableAudio);
+                    }).catch(err => console.log('Errore audio finale dopo interazione:', err));
+                };
+                
+                // Aggiungi event listeners per interazione utente
+                document.addEventListener('click', enableAudio, { once: true });
+                document.addEventListener('touchstart', enableAudio, { once: true });
+                document.addEventListener('keydown', enableAudio, { once: true });
+            });
+        }
+
+        // Avvia l'audio finale automaticamente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Avvia immediatamente
+            forceFinalAutoplay();
+            
+            // Riprova dopo 1.5 secondi
+            setTimeout(forceFinalAutoplay, 1500);
+            
+            // Riprova dopo 3 secondi
+            setTimeout(forceFinalAutoplay, 3000);
+        });
+
         // Creazione stelle di sfondo
         function createStars() {
             const starsContainer = document.getElementById('stars');
